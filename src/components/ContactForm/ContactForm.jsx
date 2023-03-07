@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { contactAdd } from 'redux/contacts/contactsSlice';
+import { useDispatch } from 'react-redux';
+import { addContactOnServer } from 'redux/contacts/contacts-operations';
 import styles from './ContactsForm.module.scss';
 
 const INITIAL_STATE = {
@@ -10,23 +10,10 @@ const INITIAL_STATE = {
 
 export const ContactForm = () => {
   const [state, setState] = useState({ ...INITIAL_STATE });
-  const contacts = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
   const addContact = data => {
-    const { name, number } = data;
-    const normalizedNames = contacts.map(contact => contact.name.toLowerCase());
-    const allTelephones = contacts.map(contact => contact.number);
-
-    if (normalizedNames.includes(name.toLowerCase())) {
-      alert(`${name} already in contacts`);
-      return;
-    } else if (allTelephones.includes(number)) {
-      alert(`${number} already in contacts`);
-      return;
-    }
-
-    dispatch(contactAdd(data));
+    dispatch(addContactOnServer(data));
   };
 
   const handleChange = evt => {

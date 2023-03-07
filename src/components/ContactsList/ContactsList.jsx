@@ -1,28 +1,28 @@
 import { ContactListItem } from 'components/ContactsListItem/ContactsListItem';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { contactDelete } from 'redux/contacts/contactsSlice';
-import { getContacts, getFilter } from 'redux/selectors';
+import {
+  getContacts,
+  getFilter,
+  getFilteredContacts,
+} from 'redux/contacts/selectors';
+import {
+  fetchContacts,
+  deleteContact,
+} from 'redux/contacts/contacts-operations';
 import styles from './ContactsList.module.scss';
 
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
 
-  const getFilteredContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
   const dispatch = useDispatch();
 
-  const deleteContact = contactId => {
-    dispatch(contactDelete(contactId));
-  };
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
-  const filtered = getFilteredContacts();
+  const filtered = getFilteredContacts(filter, contacts);
 
   return (
     <ul className={styles.list}>
@@ -34,7 +34,7 @@ export const ContactList = () => {
             id={id}
             name={name}
             number={number}
-            deleteContact={() => deleteContact(id)}
+            deleteContact={() => dispatch(deleteContact(id))}
           />
         );
       })}
