@@ -31,7 +31,9 @@ export const contactsReducer = createReducer(INITIAL_STATE, builder => {
       getContactsRejected,
       (state, { payload }) => (state.error = payload)
     )
-    .addCase(addContactPending, state => (state.isLoading = true))
+    .addCase(addContactPending, state => {
+      state.isLoading = true;
+    })
     .addCase(addContactFulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.items.push(payload);
@@ -40,7 +42,9 @@ export const contactsReducer = createReducer(INITIAL_STATE, builder => {
       state.isLoading = false;
       state.error = payload;
     })
-    .addCase(deleteContactPending, state => (state.isLoading = true))
+    .addCase(deleteContactPending, state => {
+      state.isLoading = true;
+    })
     .addCase(deleteContactFulfilled, (state, { payload }) => {
       state.isLoading = false;
       state.items = state.items.filter(({ id }) => id !== payload);

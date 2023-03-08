@@ -16,7 +16,7 @@ const { fetchContactsFromDB, deleteContactFromDB, postContact } = api;
 export const fetchContacts = () => {
   const func = async dispatch => {
     try {
-      dispatch(getContactsPending);
+      dispatch(getContactsPending());
       const { data } = await fetchContactsFromDB();
       dispatch(getContactsFulfilled(data));
     } catch ({ response }) {
@@ -55,7 +55,7 @@ export const addContactOnServer = contact => {
         alert(`This contact already in phonebook!`);
         return;
       }
-      dispatch(addContactPending);
+      dispatch(addContactPending());
       const { data } = await postContact(contact);
       dispatch(addContactFulfilled(data));
     } catch ({ response }) {
@@ -68,7 +68,7 @@ export const addContactOnServer = contact => {
 export const deleteContact = id => {
   const func = async dispatch => {
     try {
-      dispatch(deleteContactPending);
+      dispatch(deleteContactPending());
       await deleteContactFromDB(id);
       dispatch(deleteContactFulfilled(id));
     } catch ({ response }) {
