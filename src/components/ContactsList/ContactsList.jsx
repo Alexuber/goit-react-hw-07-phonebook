@@ -5,6 +5,8 @@ import {
   getContacts,
   getFilter,
   getFilteredContacts,
+  getError,
+  getIsLoading,
 } from 'redux/contacts/selectors';
 import {
   fetchContacts,
@@ -15,6 +17,8 @@ import styles from './ContactsList.module.scss';
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
   const filter = useSelector(getFilter);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
 
   const dispatch = useDispatch();
 
@@ -26,6 +30,9 @@ export const ContactList = () => {
 
   return (
     <ul className={styles.list}>
+      {isLoading && contacts.length === 0 && (
+        <div style={{ color: 'red' }}> Loading contacts...</div>
+      )}
       {filtered.map(contact => {
         const { id, name, number } = contact;
         return (
@@ -38,6 +45,7 @@ export const ContactList = () => {
           />
         );
       })}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
     </ul>
   );
 };

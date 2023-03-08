@@ -7,3 +7,6 @@ export const getFilteredContacts = (filter, contacts) => {
     name.toLowerCase().includes(normalizedFilter)
   );
 };
+
+export const getError = state => state.contacts.error;
+export const getIsLoading = state => state.contacts.isLoading;
