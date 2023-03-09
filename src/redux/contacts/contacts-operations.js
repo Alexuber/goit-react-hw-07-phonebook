@@ -40,16 +40,22 @@ export const addContactOnServer = createAsyncThunk(
         contacts: { items },
       } = getState();
 
-      if (isDublicate(items, contact)) {
-        alert(`This contact already in phonebook!`);
-        return;
-      }
-
       const { data } = await api.postContact(contact);
       return data;
     } catch ({ message }) {
       return rejectWithValue(message);
     }
+  },
+  {
+    condition: (contact, { getState }) => {
+      const {
+        contacts: { items },
+      } = getState();
+      if (isDublicate(items, contact)) {
+        alert('This contact already in the phonebook!');
+        return false;
+      }
+    },
   }
 );
 
@@ -64,6 +70,7 @@ export const deleteContact = createAsyncThunk(
     }
   }
 );
+
 // const { fetchContactsFromDB, deleteContactFromDB, postContact } = api;
 
 // export const fetchContacts = () => {

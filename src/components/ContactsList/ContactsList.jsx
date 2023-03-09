@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   getContacts,
-  getFilter,
   getFilteredContacts,
   getError,
   getIsLoading,
@@ -16,7 +15,6 @@ import styles from './ContactsList.module.scss';
 
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
 
@@ -26,7 +24,7 @@ export const ContactList = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  const filtered = getFilteredContacts(filter, contacts);
+  const filtered = useSelector(getFilteredContacts);
 
   return (
     <ul className={styles.list}>
@@ -35,10 +33,10 @@ export const ContactList = () => {
       )}
       {filtered.map(contact => {
         const { id, name, number } = contact;
+
         return (
           <ContactListItem
             key={id}
-            id={id}
             name={name}
             number={number}
             deleteContact={() => dispatch(deleteContact(id))}

@@ -1,4 +1,5 @@
 import styles from './Delete.module.scss';
+import PropTypes from 'prop-types';
 
 export const Delete = ({ deleteContact }) => {
   return (
@@ -6,4 +7,8 @@ export const Delete = ({ deleteContact }) => {
       Delete
     </button>
   );
+};
+
+Delete.propTypes = {
+  deleteContact: PropTypes.func.isRequired,
 };
