@@ -36,10 +36,6 @@ export const addContactOnServer = createAsyncThunk(
   'contacts/addContact',
   async (contact, { rejectWithValue, getState }) => {
     try {
-      const {
-        contacts: { items },
-      } = getState();
-
       const { data } = await api.postContact(contact);
       return data;
     } catch ({ message }) {
